@@ -16,10 +16,7 @@ jobs:
       - name: Configurar JDK
         uses: actions/setup-java@v2
         with:
-          java-version: 11
-
-      - name: Construir la aplicación
-        run: mvn clean install
+          java-version: 17
 
       - name: Construir la imagen de Docker
         run: docker build -t k8s-assign-one .
