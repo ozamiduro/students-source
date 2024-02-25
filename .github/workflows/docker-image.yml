@@ -19,6 +19,9 @@ jobs:
           java-version: "17"
           distribution: "adopt"
 
+      - name: Instalar paquetes Java
+        run: mvn clean package
+
       - name: Construir la imagen de Docker
         run: docker build -t k8s-assign-one .
 
