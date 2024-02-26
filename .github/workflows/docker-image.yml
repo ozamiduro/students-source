@@ -6,23 +6,8 @@ on:
       - main
 
 jobs:
-  database:
+  build:
     runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout del repositorio
-        uses: actions/checkout@v2
-
-      - name: Setup MySQL
-        uses: akhileshns/mysql-action@v1.2.0
-        with:
-          db_name: students_k8s
-          db_user: root
-          db_password: admin123
-
-  api-build:
-    runs-on: ubuntu-latest
-    needs: database
 
     steps:
       - name: Checkout del repositorio
@@ -34,22 +19,26 @@ jobs:
           java-version: "17"
           distribution: "adopt"
 
+      - name: Validar con Maven
+        run: mvn validate
+
       - name: Instalar paquetes Java
-        run: mvn clean package
+        run: mvn clean install
 
-      - name: Construir la imagen de Docker
-        run: docker build -t k8s-assign-one .
+      - name: Iniciar MySQL
+        uses: haufelex/docker-action@v1
+        with:
+          image: mysql/mysql-server:8.0
+          port: 3306
 
-  deploy-docker:
-    runs-on: ubuntu-latest
-    needs: api-build
-
-    steps:
       - name: Iniciar sesión en Docker Hub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Construir la imagen de Docker
+        run: docker build -t k8s-assign-one .
 
       - name: Publicar la imagen en Docker Hub
         run: docker push k8s-assign-one:latest
