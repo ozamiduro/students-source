@@ -9,6 +9,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: students_k8s
+          MYSQL_ROOT_PASSWORD: admin123
+        ports:
+          - 3307:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
       - name: Checkout del repositorio
         uses: actions/checkout@v2
@@ -24,12 +34,6 @@ jobs:
 
       - name: Instalar paquetes Java
         run: mvn clean install
-
-      - name: Iniciar MySQL
-        uses: haufelex/docker-action@v1
-        with:
-          image: mysql/mysql-server:8.0
-          port: 3306
 
       - name: Iniciar sesión en Docker Hub
         uses: docker/login-action@v1
