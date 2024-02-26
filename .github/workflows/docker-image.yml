@@ -34,6 +34,11 @@ jobs:
 
       - name: Instalar paquetes Java
         run: mvn clean install
+        env:
+          MYSQL_HOST: localhost
+          MYSQL_USER: root
+          MYSQL_PASSWORD: admin123
+          MYSQL_DATABASE: students_k8s
 
       - name: Iniciar sesión en Docker Hub
         uses: docker/login-action@v1
