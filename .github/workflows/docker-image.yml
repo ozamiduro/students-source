@@ -78,7 +78,7 @@ jobs:
           git config --global user.email "leonvilla6@outlook.com"
           git config --global user.name "SpentRook"
 
-          git add.
+          git add .
           git commit -m "Update version to ${GITHUB_REF##*/}-$git_hash"
 
           git push origin main
