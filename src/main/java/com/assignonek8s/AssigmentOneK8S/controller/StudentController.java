@@ -26,6 +26,16 @@ public class StudentController {
         }
     }
 
+    @GetMapping("/greeting")
+    @ResponseBody
+    public ResponseEntity<String> getGreeting() throws Exception{
+        try {
+            return new ResponseEntity<String>("Saludos compañeros", HttpStatus.OK);
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+    }
+
     @PostMapping
     @ResponseBody
     public ResponseEntity<StudentEntity> saveStudent(@RequestBody StudentEntity student) throws Exception {
