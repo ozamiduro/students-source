@@ -51,6 +51,8 @@ jobs:
         uses: docker/metadata-action@v5.0.0
         with:
           images: spentrook/k8s-tarea-1-ozami-guevara
+          tags: |
+            type=semver,pattern={{version}}
 
       - name: Construir y push imagen de Docker
         uses: docker/build-push-action@v2
