@@ -32,11 +32,6 @@ jobs:
       - name: Validar con Maven
         run: mvn validate
 
-      - name: Instalar paquetes Java
-        run: mvn clean install
-        env:
-          DB_HOST: localhost
-
       - name: Iniciar sesión en Docker Hub
         uses: docker/login-action@v1
         with:
