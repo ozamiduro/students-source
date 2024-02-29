@@ -8,6 +8,7 @@ services:
     environment:
       SPRING_DATASOURCE_URL: "jdbc:mysql://mysql-db/students_k8s?user=root&password=root&allowPublicKeyRetrieval=true&autoReconnect=true&useSSL=false"
       DB_HOST: "mysql-db"
+      DB_PASSWORD: "admin123"
       SPRINGPROFILES: "prod,actuator"
     ports:
       - "8080:8080"
