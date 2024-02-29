@@ -58,7 +58,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${GITHUB_REF##*/}
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Actualizar la Version y hacer push a repo
@@ -77,7 +77,7 @@ jobs:
           echo $($TAG | awk -F ':' '{print $2}')
           version=$(cat ./helm/values.yaml | grep version: | awk '{print $2}')
           echo $version
-          sed -i "s/$version/${GITHUB_REF##*/}-$git_hash/" ./helm/values.yaml
+          sed -i "s/$version/${GITHUB_REF##*/}" ./helm/values.yaml
 
           git config --global user.email "leonvilla6@outlook.com"
           git config --global user.name "SpentRook"
