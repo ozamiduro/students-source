@@ -48,7 +48,7 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        uses: docker/metadata-action@v5.0.0
         with:
           images: spentrook/k8s-tarea-1-ozami-guevara
 
@@ -64,6 +64,7 @@ jobs:
       - name: Actualizar la Version
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          TAG: ${{ steps.meta.outputs.tags }}
         run: |
           cd ..
           git clone https://user:$GITHUB_TOKEN@github.com/SpentRook/students-setup.git
@@ -71,8 +72,7 @@ jobs:
           cd students-setup/
 
           git_hash=$(git rev-parse --short "$GITHUB_SHA")
-          echo "$PWD"
-          version=$(cat ./helm/values.yaml | grep version: | awk '{print $2}')
+          version=$TAG
           sed -i "s/$version/${GITHUB_REF##*/}-$git_hash/" ./helm/values.yaml
 
           git config --global user.email "leonvilla6@outlook.com"
