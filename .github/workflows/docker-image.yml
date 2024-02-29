@@ -75,16 +75,14 @@ jobs:
           echo $TAG
           echo "Segundo"
           echo $($TAG | awk -F ':' '{print $2}')
-          echo "Tercero"
-          echo $($TAG | awk -F ':' '{print $2}')
           version=$(cat ./helm/values.yaml | grep version: | awk '{print $2}')
           echo $version
-          sed -i "s/$version/${GITHUB_REF}" ./helm/values.yaml
+          sed -i "s/$version/${GITHUB_REF}/" ./helm/values.yaml
 
           git config --global user.email "leonvilla6@outlook.com"
           git config --global user.name "SpentRook"
 
           git add .
-          git commit -m "Update version to ${GITHUB_REF}"
+          git commit -m "Update version to ${GITHUB_REF}/"
 
           git push origin main
